@@ -63,4 +63,6 @@ target 'MediapipeJS' do
       end
     end
   end
+
+  pod 'MediaPipeTasksVision'
 end

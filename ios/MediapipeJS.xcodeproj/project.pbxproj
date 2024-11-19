@@ -12,6 +12,9 @@
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		2127B184597F48719CFD8E54 /* noop-file.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC3E4597FBE6497AB13B6760 /* noop-file.swift */; };
 		3E461D99554A48A4959DE609 /* SplashScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */; };
+		504D9AA42CEC2BAF00D3E71A /* pose_landmarker_full.task in Resources */ = {isa = PBXBuildFile; fileRef = 504D9AA12CEC2BAF00D3E71A /* pose_landmarker_full.task */; };
+		504D9AA52CEC2BAF00D3E71A /* pose_landmarker_heavy.task in Resources */ = {isa = PBXBuildFile; fileRef = 504D9AA22CEC2BAF00D3E71A /* pose_landmarker_heavy.task */; };
+		504D9AA62CEC2BAF00D3E71A /* pose_landmarker_lite.task in Resources */ = {isa = PBXBuildFile; fileRef = 504D9AA32CEC2BAF00D3E71A /* pose_landmarker_lite.task */; };
 		8E9D66382EA2D126EC4BAFB4 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = A058DF9CC225651BBC9F33E9 /* PrivacyInfo.xcprivacy */; };
 		96905EF65AED1B983A6B3ABC /* libPods-MediapipeJS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 58EEBF8E8E6FB1BC6CAF49B5 /* libPods-MediapipeJS.a */; };
 		B18059E884C0ABDD17F3DC3D /* ExpoModulesProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC715A2D49A985799AEE119 /* ExpoModulesProvider.swift */; };
@@ -25,6 +28,9 @@
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = MediapipeJS/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = MediapipeJS/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = MediapipeJS/main.m; sourceTree = "<group>"; };
+		504D9AA12CEC2BAF00D3E71A /* pose_landmarker_full.task */ = {isa = PBXFileReference; lastKnownFileType = file; path = pose_landmarker_full.task; sourceTree = "<group>"; };
+		504D9AA22CEC2BAF00D3E71A /* pose_landmarker_heavy.task */ = {isa = PBXFileReference; lastKnownFileType = file; path = pose_landmarker_heavy.task; sourceTree = "<group>"; };
+		504D9AA32CEC2BAF00D3E71A /* pose_landmarker_lite.task */ = {isa = PBXFileReference; lastKnownFileType = file; path = pose_landmarker_lite.task; sourceTree = "<group>"; };
 		58EEBF8E8E6FB1BC6CAF49B5 /* libPods-MediapipeJS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MediapipeJS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6C2E3173556A471DD304B334 /* Pods-MediapipeJS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MediapipeJS.debug.xcconfig"; path = "Target Support Files/Pods-MediapipeJS/Pods-MediapipeJS.debug.xcconfig"; sourceTree = "<group>"; };
 		7A4D352CD337FB3A3BF06240 /* Pods-MediapipeJS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MediapipeJS.release.xcconfig"; path = "Target Support Files/Pods-MediapipeJS/Pods-MediapipeJS.release.xcconfig"; sourceTree = "<group>"; };
@@ -85,6 +91,9 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				504D9AA12CEC2BAF00D3E71A /* pose_landmarker_full.task */,
+				504D9AA22CEC2BAF00D3E71A /* pose_landmarker_heavy.task */,
+				504D9AA32CEC2BAF00D3E71A /* pose_landmarker_lite.task */,
 				13B07FAE1A68108700A75B9A /* MediapipeJS */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				83CBBA001A601CBA00E9B192 /* Products */,
@@ -203,6 +212,9 @@
 				BB2F792D24A3F905000567C9 /* Expo.plist in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				3E461D99554A48A4959DE609 /* SplashScreen.storyboard in Resources */,
+				504D9AA42CEC2BAF00D3E71A /* pose_landmarker_full.task in Resources */,
+				504D9AA52CEC2BAF00D3E71A /* pose_landmarker_heavy.task in Resources */,
+				504D9AA62CEC2BAF00D3E71A /* pose_landmarker_lite.task in Resources */,
 				8E9D66382EA2D126EC4BAFB4 /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -456,10 +468,7 @@
 				LIBRARY_SEARCH_PATHS = "$(SDKROOT)/usr/lib/swift\"$(inherited)\"";
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					" ",
-				);
+				OTHER_LDFLAGS = "$(inherited)  ";
 				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) DEBUG";
@@ -514,10 +523,7 @@
 				);
 				LIBRARY_SEARCH_PATHS = "$(SDKROOT)/usr/lib/swift\"$(inherited)\"";
 				MTL_ENABLE_DEBUG_INFO = NO;
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					" ",
-				);
+				OTHER_LDFLAGS = "$(inherited)  ";
 				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
 				USE_HERMES = true;
