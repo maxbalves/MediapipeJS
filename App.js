@@ -1,20 +1,22 @@
-import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
+import { Camera, useCameraDevice, useCameraPermission } from 'react-native-vision-camera';
+import { useFrameProcessor } from 'react-native-vision-camera';
 
 export default function App() {
+  const device = useCameraDevice('front')
+  const { hasPermission } = useCameraPermission()
+
+  const frameProcessor = useFrameProcessor((frame) => {
+    'worklet'
+    console.log(`Frame: ${frame.width} x ${frame.height} (${frame.pixelFormat})`)
+  }, [])
+
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <Camera
+      style={StyleSheet.absoluteFill}
+      device={device}
+      isActive={true}
+      frameProcessor={frameProcessor}
+    />
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
