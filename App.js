@@ -1,6 +1,7 @@
 import { StyleSheet, Text, View } from 'react-native';
-import { Camera, useCameraDevice, useCameraPermission, VisionCameraProxy } from 'react-native-vision-camera';
+import { Camera, useCameraDevice, useCameraFormat, useCameraPermission, useSkiaFrameProcessor, VisionCameraProxy } from 'react-native-vision-camera';
 import { useFrameProcessor } from 'react-native-vision-camera';
+import { Skia, PaintStyle } from '@shopify/react-native-skia';
 
 const plugin = VisionCameraProxy.initFrameProcessorPlugin('poseFrameProcessor', {});
 
@@ -16,10 +17,28 @@ export default function App() {
   const device = useCameraDevice('front');
   const { hasPermission } = useCameraPermission();
 
-  const frameProcessor = useFrameProcessor((frame) => {
+  const paint = Skia.Paint();
+  paint.setStyle(PaintStyle.Fill);
+  paint.setStrokeWidth(2);
+  paint.setColor(Skia.Color('red'));
+
+  const frameProcessor = useSkiaFrameProcessor((frame) => {
     'worklet'
     const data = poseFrameProcessor(frame);
-    console.log(data);
+
+    frame.render()
+    const frameWidth = frame.width;
+    const frameHeight = frame.height;
+
+    // Draw circles
+    for (const mark of data || []) {
+      frame.drawCircle(
+        mark.x * Number(frameWidth),
+        mark.y * Number(frameHeight),
+        6,
+        paint,
+      );
+    }
   }, []);
 
   return (
@@ -28,7 +47,6 @@ export default function App() {
       device={device}
       isActive={true}
       frameProcessor={frameProcessor}
-      fps={30}
       pixelFormat='rgb'
     />
   );
