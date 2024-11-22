@@ -1,6 +1,5 @@
 import { StyleSheet, Text, View } from 'react-native';
 import { Camera, useCameraDevice, useCameraFormat, useCameraPermission, useSkiaFrameProcessor, VisionCameraProxy } from 'react-native-vision-camera';
-import { useFrameProcessor } from 'react-native-vision-camera';
 import { Skia, PaintStyle } from '@shopify/react-native-skia';
 
 const plugin = VisionCameraProxy.initFrameProcessorPlugin('poseFrameProcessor', {});
