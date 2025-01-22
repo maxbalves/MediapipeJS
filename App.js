@@ -13,7 +13,7 @@ export function poseFrameProcessor(frame) {
 }
 
 export default function App() {
-  const device = useCameraDevice('front');
+  const device = useCameraDevice('back');
   const { hasPermission } = useCameraPermission();
 
   const paint = Skia.Paint();
