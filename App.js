@@ -1,13 +1,16 @@
 import { StyleSheet, Text, View } from 'react-native';
 import { Camera, useCameraDevice, useCameraPermission, useSkiaFrameProcessor, VisionCameraProxy } from 'react-native-vision-camera';
-import { Skia, PaintStyle } from '@shopify/react-native-skia';
+import { Skia, PaintStyle, Paint, center } from '@shopify/react-native-skia';
 
 // Initialize Frame Processor Plugin
 const plugin = VisionCameraProxy.initFrameProcessorPlugin('poseFrameProcessor', {});
 
 // Define dictionaries of landmarks and angles
-let landmarks_dict = {}
-let angles_dict = {}
+let landmarks_dict = {};
+let angles_dict = {};
+
+// Debug variables
+const DISPLAY_ANGLES = true;
 
 export function poseFrameProcessor(frame) {
 	'worklet';
@@ -16,7 +19,6 @@ export function poseFrameProcessor(frame) {
 	}
 	return plugin.call(frame);
 }
-
 
 // Calculate angle function
 // TODO: Utilize 3D angles
@@ -110,7 +112,7 @@ export default function App() {
 
 		// Compute dictionary of landmarks
 		landmarks_dict = computeLandmarks(data);
-		console.log(landmarks_dict)
+		// console.log(landmarks_dict)
 
 		// TODO: Compute dictionary of angles
 		angles_dict = computeAngles(landmarks_dict)
@@ -130,14 +132,34 @@ export default function App() {
 			);
 		}
 
-		// Example: Calculate angle between three points (e.g., shoulder, elbow, wrist)
-		// You should replace the below coordinates with actual detected points from `data`
-		// const left_shoulder = data[12]; // Example values
-		// const left_elbow = data[14];
-		// const left_wrist = data[16];
+		//? Trying to debug with a simple centered text | !NOT WORKING!
+		const text = "Hello, world!"
+		const centerX = frame.width / 2
+		const centerY = frame.height / 2
+		const paint2 = Skia.Paint();
+		paint2.setStyle(PaintStyle.Fill);
+		paint2.setStrokeWidth(2);
+		paint2.setColor(Skia.Color('white'));
+		const font = Skia.Font(Skia.Typeface, 24);
+		frame.drawText(text, centerX, centerY, paint2, font);
+		//? END OF DEBUG, DELETE AFTER DONE
 
-		// const left_bicep_angle = calculateAngle(left_shoulder, left_elbow, left_wrist);
-		// console.log(`Calculated angle: ${angle}`);
+		// Draw angles
+		if (DISPLAY_ANGLES == true) {
+			for (const [landmark, angle] of Object.entries(angles_dict)) {
+				if (angle == undefined || angle < 0 || angle > 360)
+					continue;
+				let x = landmarks_dict[landmark]['x'] * Number(frameWidth);
+				let y = landmarks_dict[landmark]['y'] * Number(frameHeight);
+				let text = parseInt(angle) + " degrees";
+				let paint = Skia.Paint();
+				paint.setColor(Skia.Color('white'));
+				let font = Skia.Font(Skia.Typeface, 24);
+				//! Text is not being displayed
+				// console.log(`Drawing text at (${x}, ${y}) | Angle: ${angle}`)
+				// frame.drawText(text, x, y, paint, font);
+			}
+		}
 	}, []);
 
 	return (
