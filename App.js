@@ -17,11 +17,49 @@ export function poseFrameProcessor(frame) {
 	return plugin.call(frame);
 }
 
-// export function computeAngles(landmarks) {
-// 	// Left elbow
-// 	angles_dict["left_elbow"] = calculateAngle(landmarks_dict["left_wrist"], landmarks_dict["left_elbow"], landmarks_dict["left_shoulder"]);
-// }
 
+// Calculate angle function
+// TODO: Utilize 3D angles
+export function calculateAngle(a, b, c) {
+	'worklet';
+	if (a == undefined || b == undefined || c == undefined)
+		return -1;
+
+	// Define angles as arrays and calculate using atan2 for 2D
+	a = [a['x'], a['y']];
+	b = [b['x'], b['y']];
+	c = [c['x'], c['y']];
+	let radians = Math.atan2(c[1] - b[1], c[0] - b[0]) - Math.atan2(a[1] - b[1], a[0] - b[0]);
+
+	// Convert radians to degrees
+	let angle = Math.abs(radians * 180.0 / Math.PI);
+
+	// Ensure angle is between 0 and 180 degrees
+	if (angle > 180.0)
+		angle = 360 - angle;
+
+	return angle;
+}
+
+
+// Function to compute primary angles (exercises include: pushups, pullups, squats)
+export function computeAngles(landmarks) {
+	'worklet';
+	if (landmarks.length == 0) return {};
+	let angles = {};
+
+	angles["left_elbow"] = calculateAngle(landmarks["left_wrist"], landmarks["left_elbow"], landmarks["left_shoulder"]);
+	angles["right_elbow"] = calculateAngle(landmarks["right_wrist"], landmarks["right_elbow"], landmarks["right_shoulder"]);
+	angles["left_knee"] = calculateAngle(landmarks["left_hip"], landmarks["left_knee"], landmarks["left_ankle"]);
+	angles["right_knee"] = calculateAngle(landmarks["right_hip"], landmarks["right_knee"], landmarks["right_ankle"]);
+	angles["left_hip"] = calculateAngle(landmarks["left_shoulder"], landmarks["left_hip"], landmarks["left_knee"]);
+	angles["right_hip"] = calculateAngle(landmarks["right_shoulder"], landmarks["right_hip"], landmarks["right_knee"]);
+
+	return angles;
+}
+
+
+// TODO: Inverted Body Sides *GULP*
 export function computeLandmarks(data) {
 	'worklet';
 	if (data.length == 0) return {};
@@ -57,29 +95,6 @@ export function computeLandmarks(data) {
 	return landmarks;
 }
 
-// Calculate angle function
-// TODO: Utilize 3D angles
-export function calculateAngle(a, b, c) {
-	'worklet';
-	if (a == undefined || b == undefined || c == undefined)
-		return -1;
-
-	// Define angles as arrays and calculate using atan2 for 2D
-	a = [a['x'], a['y']];
-	b = [b['x'], b['y']];
-	c = [c['x'], c['y']];
-	let radians = Math.atan2(c[1] - b[1], c[0] - b[0]) - Math.atan2(a[1] - b[1], a[0] - b[0]);
-
-	// Convert radians to degrees
-	let angle = Math.abs(radians * 180.0 / Math.PI);
-
-	// Ensure angle is between 0 and 180 degrees
-	if (angle > 180.0)
-		angle = 360 - angle;
-
-	return angle;
-}
-
 export default function App() {
 	const device = useCameraDevice('front');
 	const { hasPermission } = useCameraPermission();
@@ -98,8 +113,8 @@ export default function App() {
 		console.log(landmarks_dict)
 
 		// TODO: Compute dictionary of angles
-		// angles_dict = computeAngles(landmarks_dict)
-		// console.log(angles_dict)
+		angles_dict = computeAngles(landmarks_dict)
+		console.log(angles_dict)
 
 		frame.render()
 		const frameWidth = frame.width;
@@ -121,7 +136,7 @@ export default function App() {
 		// const left_elbow = data[14];
 		// const left_wrist = data[16];
 
-		// const angle = calculateAngle(left_shoulder, left_elbow, left_wrist);
+		// const left_bicep_angle = calculateAngle(left_shoulder, left_elbow, left_wrist);
 		// console.log(`Calculated angle: ${angle}`);
 	}, []);
 
