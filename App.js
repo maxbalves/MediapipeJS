@@ -1,6 +1,6 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { Platform, StyleSheet, Text, View } from 'react-native';
 import { Camera, useCameraDevice, useCameraPermission, useSkiaFrameProcessor, VisionCameraProxy } from 'react-native-vision-camera';
-import { Skia, PaintStyle, Paint, center } from '@shopify/react-native-skia';
+import { Skia, PaintStyle, Paint, center, matchFont } from '@shopify/react-native-skia';
 
 // Initialize Frame Processor Plugin
 const plugin = VisionCameraProxy.initFrameProcessorPlugin('poseFrameProcessor', {});
@@ -106,6 +106,15 @@ export default function App() {
 	paint.setStrokeWidth(2);
 	paint.setColor(Skia.Color('red'));
 
+	const fontFamily = Platform.select({ ios: "Helvetica", default: "serif" });
+	const fontStyle = {
+		fontFamily,
+		fontSize: 14,
+		fontStyle: "normal",
+		fontWeight: "bold",
+	};
+	const font = matchFont(fontStyle);
+
 	const frameProcessor = useSkiaFrameProcessor((frame) => {
 		'worklet';
 		const data = poseFrameProcessor(frame);
@@ -132,18 +141,6 @@ export default function App() {
 			);
 		}
 
-		//? Trying to debug with a simple centered text | !NOT WORKING!
-		const text = "Hello, world!"
-		const centerX = frame.width / 2
-		const centerY = frame.height / 2
-		const paint2 = Skia.Paint();
-		paint2.setStyle(PaintStyle.Fill);
-		paint2.setStrokeWidth(2);
-		paint2.setColor(Skia.Color('white'));
-		const font = Skia.Font(Skia.Typeface, 24);
-		frame.drawText(text, centerX, centerY, paint2, font);
-		//? END OF DEBUG, DELETE AFTER DONE
-
 		// Draw angles
 		if (DISPLAY_ANGLES == true) {
 			for (const [landmark, angle] of Object.entries(angles_dict)) {
@@ -154,10 +151,8 @@ export default function App() {
 				let text = parseInt(angle) + " degrees";
 				let paint = Skia.Paint();
 				paint.setColor(Skia.Color('white'));
-				let font = Skia.Font(Skia.Typeface, 24);
-				//! Text is not being displayed
 				// console.log(`Drawing text at (${x}, ${y}) | Angle: ${angle}`)
-				// frame.drawText(text, x, y, paint, font);
+				frame.drawText(text, x, y, paint, font);
 			}
 		}
 	}, []);
