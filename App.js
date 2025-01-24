@@ -6,7 +6,8 @@ import { Skia, PaintStyle } from '@shopify/react-native-skia';
 const plugin = VisionCameraProxy.initFrameProcessorPlugin('poseFrameProcessor', {});
 
 // Define dictionaries of landmarks and angles
-const landmarks_dict = {}
+let landmarks_dict = {}
+let angles_dict = {}
 
 export function poseFrameProcessor(frame) {
 	'worklet';
@@ -18,17 +19,7 @@ export function poseFrameProcessor(frame) {
 
 // export function computeAngles(landmarks) {
 // 	// Left elbow
-// 	angles_dict[""] = calculateAngle(landmarks[0], landmarks[1], landmarks[2]);
-// 	// Right elbow
-// 	angles_dict[""] = calculateAngle(landmarks[0], landmarks[1], landmarks[2]);
-// 	// Left knee
-// 	angles_dict[""] = calculateAngle(landmarks[0], landmarks[1], landmarks[2]);
-// 	// Right knee
-// 	angles_dict[""] = calculateAngle(landmarks[0], landmarks[1], landmarks[2]);
-// 	// Left shoulder
-// 	angles_dict[""] = calculateAngle(landmarks[0], landmarks[1], landmarks[2]);
-// 	// Right shoulder
-// 	angles_dict[""] = calculateAngle(landmarks[0], landmarks[1], landmarks[2]);
+// 	angles_dict["left_elbow"] = calculateAngle(landmarks_dict["left_wrist"], landmarks_dict["left_elbow"], landmarks_dict["left_shoulder"]);
 // }
 
 export function computeLandmarks(data) {
@@ -38,6 +29,31 @@ export function computeLandmarks(data) {
 	let landmarks = {};
 	// Nose - 0 index
 	landmarks["nose"] = {"x" : data[0]["x"], "y" : data[0]["y"], "z" : data[0]["z"], "visibility" : data[0]["visibility"], "presence" : data[0]["presence"]};
+	// Left shoulder - 11 index
+	landmarks["left_shoulder"] = {"x" : data[11]["x"], "y" : data[11]["y"], "z" : data[11]["z"], "visibility" : data[11]["visibility"], "presence" : data[11]["presence"]};
+	// Right shoulder - 12 index
+	landmarks["right_shoulder"] = {"x" : data[12]["x"], "y" : data[12]["y"], "z" : data[12]["z"], "visibility" : data[12]["visibility"], "presence" : data[12]["presence"]};
+	// Left elbow - 13 index
+	landmarks["left_elbow"] = {"x" : data[13]["x"], "y" : data[13]["y"], "z" : data[13]["z"], "visibility" : data[13]["visibility"], "presence" : data[13]["presence"]};
+	// Right elbow - 14 index
+	landmarks["right_elbow"] = {"x" : data[14]["x"], "y" : data[14]["y"], "z" : data[14]["z"], "visibility" : data[14]["visibility"], "presence" : data[14]["presence"]};
+	// Left wrist - 15 index
+	landmarks["left_wrist"] = {"x" : data[15]["x"], "y" : data[15]["y"], "z" : data[15]["z"], "visibility" : data[15]["visibility"], "presence" : data[15]["presence"]};
+	// Right wrist - 16 index
+	landmarks["right_wrist"] = {"x" : data[16]["x"], "y" : data[16]["y"], "z" : data[16]["z"], "visibility" : data[16]["visibility"], "presence" : data[16]["presence"]};
+	// Left hip - 23 index
+	landmarks["left_hip"] = {"x" : data[23]["x"], "y" : data[23]["y"], "z" : data[23]["z"], "visibility" : data[23]["visibility"], "presence" : data[23]["presence"]};
+	// Right hip - 24 index
+	landmarks["right_hip"] = {"x" : data[24]["x"], "y" : data[24]["y"], "z" : data[24]["z"], "visibility" : data[24]["visibility"], "presence" : data[24]["presence"]};
+	// Left knee - 25 index
+	landmarks["left_knee"] = {"x" : data[25]["x"], "y" : data[25]["y"], "z" : data[25]["z"], "visibility" : data[25]["visibility"], "presence" : data[25]["presence"]};
+	// Right knee - 26 index
+	landmarks["right_knee"] = {"x" : data[26]["x"], "y" : data[26]["y"], "z" : data[26]["z"], "visibility" : data[26]["visibility"], "presence" : data[26]["presence"]};
+	// Left ankle - 27 index
+	landmarks["left_ankle"] = {"x" : data[27]["x"], "y" : data[27]["y"], "z" : data[27]["z"], "visibility" : data[27]["visibility"], "presence" : data[27]["presence"]};
+	// Right ankle - 28 index
+	landmarks["right_ankle"] = {"x" : data[28]["x"], "y" : data[28]["y"], "z" : data[28]["z"], "visibility" : data[28]["visibility"], "presence" : data[28]["presence"]};
+	
 	return landmarks;
 }
 
@@ -78,8 +94,12 @@ export default function App() {
 		const data = poseFrameProcessor(frame);
 
 		// Compute dictionary of landmarks
-		// landmarks_dict = computeLandmarks(data);
-		// console.log(landmarks_dict)
+		landmarks_dict = computeLandmarks(data);
+		console.log(landmarks_dict)
+
+		// TODO: Compute dictionary of angles
+		// angles_dict = computeAngles(landmarks_dict)
+		// console.log(angles_dict)
 
 		frame.render()
 		const frameWidth = frame.width;
@@ -97,13 +117,12 @@ export default function App() {
 
 		// Example: Calculate angle between three points (e.g., shoulder, elbow, wrist)
 		// You should replace the below coordinates with actual detected points from `data`
-		// const left_shoulder = data[]; // Example values
+		// const left_shoulder = data[12]; // Example values
 		// const left_elbow = data[14];
 		// const left_wrist = data[16];
 
 		// const angle = calculateAngle(left_shoulder, left_elbow, left_wrist);
 		// console.log(`Calculated angle: ${angle}`);
-		// console.log(`Variable: ${variable}`)
 	}, []);
 
 	return (
