@@ -11,7 +11,7 @@ public class PoseFrameProcessorPlugin: FrameProcessorPlugin {
     let buffer = frame.buffer
     let orientation = frame.orientation
     
-    let modelPath = Bundle.main.path(forResource: "pose_landmarker_lite",
+    let modelPath = Bundle.main.path(forResource: "pose_landmarker_full",
                                           ofType: "task")
     let options = PoseLandmarkerOptions()
     options.baseOptions.modelAssetPath = modelPath!
