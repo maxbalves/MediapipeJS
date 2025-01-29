@@ -148,7 +148,7 @@ export default function App() {
 					continue;
 				let x = landmarks_dict[landmark]['x'] * Number(frameWidth);
 				let y = landmarks_dict[landmark]['y'] * Number(frameHeight);
-				let text = parseInt(angle) + " degrees";
+				let text = parseInt(angle) + "°";
 				let paint = Skia.Paint();
 				paint.setColor(Skia.Color('white'));
 				// console.log(`Drawing text at (${x}, ${y}) | Angle: ${angle}`)
