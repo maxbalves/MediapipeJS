@@ -151,8 +151,13 @@ export default function App() {
 				let text = parseInt(angle) + "°";
 				let paint = Skia.Paint();
 				paint.setColor(Skia.Color('white'));
+
+				frame.save();
+				frame.resetMatrix();
 				// console.log(`Drawing text at (${x}, ${y}) | Angle: ${angle}`)
 				frame.drawText(text, x, y, paint, font);
+
+				frame.restore();
 			}
 		}
 	}, []);
