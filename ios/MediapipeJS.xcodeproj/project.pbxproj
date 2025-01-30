@@ -369,7 +369,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = MediapipeJS/MediapipeJS.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = MQ5Q5JHR79;
+				DEVELOPMENT_TEAM = 23SG5466P8;
 				ENABLE_BITCODE = NO;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(inherited)",
@@ -388,7 +388,7 @@
 					"-lc++",
 				);
 				OTHER_SWIFT_FLAGS = "$(inherited) -D EXPO_CONFIGURATION_DEBUG";
-				PRODUCT_BUNDLE_IDENTIFIER = com.nitrodark.MediapipeJS;
+				PRODUCT_BUNDLE_IDENTIFIER = com.reconnz.MediapipeJS;
 				PRODUCT_NAME = MediapipeJS;
 				SWIFT_OBJC_BRIDGING_HEADER = "MediapipeJS/MediapipeJS-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -406,7 +406,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = MediapipeJS/MediapipeJS.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = MQ5Q5JHR79;
+				DEVELOPMENT_TEAM = 23SG5466P8;
 				INFOPLIST_FILE = MediapipeJS/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.1;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -420,7 +420,7 @@
 					"-lc++",
 				);
 				OTHER_SWIFT_FLAGS = "$(inherited) -D EXPO_CONFIGURATION_RELEASE";
-				PRODUCT_BUNDLE_IDENTIFIER = com.nitrodark.MediapipeJS;
+				PRODUCT_BUNDLE_IDENTIFIER = com.reconnz.MediapipeJS;
 				PRODUCT_NAME = MediapipeJS;
 				SWIFT_OBJC_BRIDGING_HEADER = "MediapipeJS/MediapipeJS-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
