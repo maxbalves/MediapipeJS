@@ -73,8 +73,10 @@ export default function App() {
 			if (Object.keys(landmarks_dict).length === 0) return;
 
 			// Frame Dimensions
-			let frameWidth = frame.frameWidth;
-			let frameHeight = frame.frameHeight;
+			let frameWidth = frame.width;
+			let frameHeight = frame.height;
+
+			console.log(`Frame ${frameWidth} x ${frameHeight}`)
 
 			// Landmark Coordinates
 			let x0 = landmarks_dict[l0]['x'] * Number(frameWidth);
@@ -90,15 +92,24 @@ export default function App() {
 
 			// Draw
 			frame.drawLine(x0, y0, x1, y1, paint);
-			console.log("DRAWING LINE DRAWING LINE DRAWING LINE DRAWING LINE DRAWING LINE")
+			console.log(`Drawing line at (${x0}, ${y0}) | (${x1}, ${y1})`)
 		}
 
 		// Draw skeleton
+		// TODO: Improve readability (maybe export to function)
 		if (DISPLAY_SKELETON == true) {
 			drawLandmarkLine(frame, landmarks_dict, "left_wrist", "left_elbow");
-			// drawLandmarkLine(frame, landmarks_dict, "left_elbow", "left_shoulder");
-			// drawLandmarkLine(frame, landmarks_dict, "left_shoulder", "left_hip");
-			// drawLandmarkLine(frame, landmarks_dict, "left_shoulder", "right_shoulder");
+			drawLandmarkLine(frame, landmarks_dict, "left_elbow", "left_shoulder");
+			drawLandmarkLine(frame, landmarks_dict, "left_shoulder", "left_hip");
+			drawLandmarkLine(frame, landmarks_dict, "left_hip", "left_knee");
+			drawLandmarkLine(frame, landmarks_dict, "left_knee", "left_ankle");
+			drawLandmarkLine(frame, landmarks_dict, "left_shoulder", "right_shoulder");
+			drawLandmarkLine(frame, landmarks_dict, "left_hip", "right_hip");
+			drawLandmarkLine(frame, landmarks_dict, "right_shoulder", "right_hip");
+			drawLandmarkLine(frame, landmarks_dict, "right_shoulder", "right_elbow");
+			drawLandmarkLine(frame, landmarks_dict, "right_elbow", "right_wrist");
+			drawLandmarkLine(frame, landmarks_dict, "right_hip", "right_knee");
+			drawLandmarkLine(frame, landmarks_dict, "right_knee", "right_ankle");
 		}
 
 		// Draw angles
