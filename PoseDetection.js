@@ -1,3 +1,5 @@
+import { Skia, PaintStyle } from '@shopify/react-native-skia';
+
 // Function to calculate angles between three points
 // TODO: Utilize 3D angles
 export function calculateAngle(a, b, c) {
@@ -72,4 +74,46 @@ export function computeLandmarks(data) {
 	landmarks["right_ankle"] = {"x" : data[28]["x"], "y" : data[28]["y"], "z" : data[28]["z"], "visibility" : data[28]["visibility"], "presence" : data[28]["presence"]};
 	
 	return landmarks;
+}
+
+function drawLandmarkLine(frame, landmarks_dict, l0, l1) {
+	'worklet';
+	if (Object.keys(landmarks_dict).length === 0) return;
+
+	// Frame Dimensions
+	let frameWidth = frame.width;
+	let frameHeight = frame.height;
+	// console.log(`Frame ${frameWidth} x ${frameHeight}`)
+
+	// Landmark Coordinates
+	let x0 = landmarks_dict[l0]['x'] * Number(frameWidth);
+	let y0 = landmarks_dict[l0]['y'] * Number(frameHeight);
+	let x1 = landmarks_dict[l1]['x'] * Number(frameWidth);
+	let y1 = landmarks_dict[l1]['y'] * Number(frameHeight);
+
+	// Line Style
+	let paint = Skia.Paint();
+	paint.setStyle(PaintStyle.Fill);
+	paint.setStrokeWidth(2);
+	paint.setColor(Skia.Color('pink'));
+
+	// Draw
+	frame.drawLine(x0, y0, x1, y1, paint);
+	// console.log(`Drawing line at (${x0}, ${y0}) | (${x1}, ${y1})`)
+}
+
+export function drawSkeleton(frame, landmarks_dict) {
+	'worklet';
+	drawLandmarkLine(frame, landmarks_dict, "left_wrist", "left_elbow");
+	drawLandmarkLine(frame, landmarks_dict, "left_elbow", "left_shoulder");
+	drawLandmarkLine(frame, landmarks_dict, "left_shoulder", "left_hip");
+	drawLandmarkLine(frame, landmarks_dict, "left_hip", "left_knee");
+	drawLandmarkLine(frame, landmarks_dict, "left_knee", "left_ankle");
+	drawLandmarkLine(frame, landmarks_dict, "left_shoulder", "right_shoulder");
+	drawLandmarkLine(frame, landmarks_dict, "left_hip", "right_hip");
+	drawLandmarkLine(frame, landmarks_dict, "right_shoulder", "right_hip");
+	drawLandmarkLine(frame, landmarks_dict, "right_shoulder", "right_elbow");
+	drawLandmarkLine(frame, landmarks_dict, "right_elbow", "right_wrist");
+	drawLandmarkLine(frame, landmarks_dict, "right_hip", "right_knee");
+	drawLandmarkLine(frame, landmarks_dict, "right_knee", "right_ankle");
 }

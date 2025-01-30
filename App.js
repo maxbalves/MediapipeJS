@@ -1,7 +1,7 @@
 import { Platform, StyleSheet, Text, View } from 'react-native';
 import { Camera, useCameraDevice, useCameraPermission, useSkiaFrameProcessor, VisionCameraProxy } from 'react-native-vision-camera';
 import { Skia, PaintStyle, matchFont } from '@shopify/react-native-skia';
-import { computeAngles, computeLandmarks } from './PoseDetection';
+import { computeAngles, computeLandmarks, drawSkeleton } from './PoseDetection';
 
 // Initialize Frame Processor Plugin
 const plugin = VisionCameraProxy.initFrameProcessorPlugin('poseFrameProcessor', {});
@@ -68,52 +68,14 @@ export default function App() {
 			);
 		}
 
-		function drawLandmarkLine(frame, landmarks_dict, l0, l1) {
-			'worklet';
-			if (Object.keys(landmarks_dict).length === 0) return;
-
-			// Frame Dimensions
-			let frameWidth = frame.width;
-			let frameHeight = frame.height;
-
-			console.log(`Frame ${frameWidth} x ${frameHeight}`)
-
-			// Landmark Coordinates
-			let x0 = landmarks_dict[l0]['x'] * Number(frameWidth);
-			let y0 = landmarks_dict[l0]['y'] * Number(frameHeight);
-			let x1 = landmarks_dict[l1]['x'] * Number(frameWidth);
-			let y1 = landmarks_dict[l1]['y'] * Number(frameHeight);
-
-			// Line Style
-			let paint = Skia.Paint();
-			paint.setStyle(PaintStyle.Fill);
-			paint.setStrokeWidth(2);
-			paint.setColor(Skia.Color('pink'));
-
-			// Draw
-			frame.drawLine(x0, y0, x1, y1, paint);
-			console.log(`Drawing line at (${x0}, ${y0}) | (${x1}, ${y1})`)
-		}
-
 		// Draw skeleton
-		// TODO: Improve readability (maybe export to function)
 		if (DISPLAY_SKELETON == true) {
-			drawLandmarkLine(frame, landmarks_dict, "left_wrist", "left_elbow");
-			drawLandmarkLine(frame, landmarks_dict, "left_elbow", "left_shoulder");
-			drawLandmarkLine(frame, landmarks_dict, "left_shoulder", "left_hip");
-			drawLandmarkLine(frame, landmarks_dict, "left_hip", "left_knee");
-			drawLandmarkLine(frame, landmarks_dict, "left_knee", "left_ankle");
-			drawLandmarkLine(frame, landmarks_dict, "left_shoulder", "right_shoulder");
-			drawLandmarkLine(frame, landmarks_dict, "left_hip", "right_hip");
-			drawLandmarkLine(frame, landmarks_dict, "right_shoulder", "right_hip");
-			drawLandmarkLine(frame, landmarks_dict, "right_shoulder", "right_elbow");
-			drawLandmarkLine(frame, landmarks_dict, "right_elbow", "right_wrist");
-			drawLandmarkLine(frame, landmarks_dict, "right_hip", "right_knee");
-			drawLandmarkLine(frame, landmarks_dict, "right_knee", "right_ankle");
+			drawSkeleton(frame, landmarks_dict);
 		}
 
 		// Draw angles
 		// TODO: Investigate vertical orientation and font-size
+		// TODO: Export to PoseDetection.js for better readability
 		if (DISPLAY_ANGLES == true) {
 			for (const [landmark, angle] of Object.entries(angles_dict)) {
 				if (angle == undefined || angle < 0 || angle > 360)
