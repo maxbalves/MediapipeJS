@@ -1,25 +1,31 @@
-// TODO: Add hip / shoulder angles
+// Push-up movement thresholds below
+// TODO: Add hip/shoulder angles
+const ANGLE_THRESHOLD_UP = 130;
+const ANGLE_THRESHOLD_DOWN = 90; 
 
-export function incrementRepCounter(){
-    // takes care of incrementing the Javascript UI and variable by one
+// Function to detect if a push-up has been completed and return the updated stage
+export function pushup(angles_dict, currentStage, currentRep) {
+    'worklet';
+    const leftElbowAngle = angles_dict['left_elbow'];
+    const rightElbowAngle = angles_dict['right_elbow'];
+
+    if (leftElbowAngle < ANGLE_THRESHOLD_DOWN && rightElbowAngle < ANGLE_THRESHOLD_DOWN) {
+        if (currentStage.current !== 'down') {
+            newStage = 'down'; 
+            currentStage.current = 'down';
+        }
+    } 
+    else if (leftElbowAngle > ANGLE_THRESHOLD_UP && rightElbowAngle > ANGLE_THRESHOLD_UP) {
+        if (currentStage.current === 'down') {
+            currentStage.current = 'up';
+            currentRep.current += 1;
+        }
+  }
+//   console.log("NEW/SAME STAGE: " + currentStage.current);
+//   console.log("NEW STAGE: " + newStage);
+//   return currentStage, currentRep;
 }
 
-export function pushup(angles_dict, stage) {
-    if (stage == "up" && angles_dict["left_elbow"] <= 100 && angles_dict["right_elbow"] <= 100) {
-        stage = "down";
-    }
-    if (stage == "down" && angles_dict["left_elbow"] >= 150 && angles_dict["right_elbow"] >= 150) {
-        stage = "up";
-        incrementRepCounter();
-    }
-}
-
-export function squat(angles_dict, stage) {
-    if (stage == "up" && angles_dict["left_knee"] <= 110 && angles_dict["right_knee"] <= 110) {
-        stage = "down";
-    }
-    if (stage == "down" && angles_dict["left_knee"] >= 160 && angles_dict["right_knee"] >= 160) {
-        stage = "up";
-        incrementRepCounter();
-    }
+export function squat(angles_dict, currentStage, currentRep) {
+  // Implement similar logic for squat tracking
 }

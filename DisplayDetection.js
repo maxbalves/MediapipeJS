@@ -8,7 +8,7 @@ export function drawLandmarkLine(frame, landmarks_dict, l0, l1) {
     let frameWidth = frame.width;
     let frameHeight = frame.height;
 
-    console.log(`Frame ${frameWidth} x ${frameHeight}`)
+    // console.log(`Frame ${frameWidth} x ${frameHeight}`)
 
     // Landmark Coordinates
     let x0 = landmarks_dict[l0]['x'] * Number(frameWidth);
@@ -24,5 +24,5 @@ export function drawLandmarkLine(frame, landmarks_dict, l0, l1) {
 
     // Draw
     frame.drawLine(x0, y0, x1, y1, paint);
-    console.log(`Drawing line at (${x0}, ${y0}) | (${x1}, ${y1})`)
+    // console.log(`Drawing line at (${x0}, ${y0}) | (${x1}, ${y1})`)
 }
