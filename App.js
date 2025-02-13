@@ -2,8 +2,7 @@ import React, { useState, useRef } from 'react';
 import { Platform, StyleSheet, Text, View, Button } from 'react-native';
 import { Camera, useCameraDevice, useCameraPermission, useSkiaFrameProcessor, VisionCameraProxy } from 'react-native-vision-camera';
 import { Skia, PaintStyle, matchFont } from '@shopify/react-native-skia';
-import { computeAngles, computeLandmarks } from './PoseDetection';
-import { drawLandmarkLine } from './DisplayDetection';
+import { computeAngles, computeLandmarks, drawSkeleton } from './PoseDetection';
 import { pushup } from './exercises';
 
 // TODO: Skia Draw the current Rep Number
@@ -96,18 +95,7 @@ export default function App() {
 
     // Draw skeleton
     if (showLandmarks) {
-      drawLandmarkLine(frame, landmarks_dict, "left_wrist", "left_elbow");
-      drawLandmarkLine(frame, landmarks_dict, "left_elbow", "left_shoulder");
-      drawLandmarkLine(frame, landmarks_dict, "left_shoulder", "left_hip");
-      drawLandmarkLine(frame, landmarks_dict, "left_hip", "left_knee");
-      drawLandmarkLine(frame, landmarks_dict, "left_knee", "left_ankle");
-      drawLandmarkLine(frame, landmarks_dict, "left_shoulder", "right_shoulder");
-      drawLandmarkLine(frame, landmarks_dict, "left_hip", "right_hip");
-      drawLandmarkLine(frame, landmarks_dict, "right_shoulder", "right_hip");
-      drawLandmarkLine(frame, landmarks_dict, "right_shoulder", "right_elbow");
-      drawLandmarkLine(frame, landmarks_dict, "right_elbow", "right_wrist");
-      drawLandmarkLine(frame, landmarks_dict, "right_hip", "right_knee");
-      drawLandmarkLine(frame, landmarks_dict, "right_knee", "right_ankle");
+        drawSkeleton(frame, landmarks_dict);
     }
 
     // Draw angles

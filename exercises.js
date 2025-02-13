@@ -11,7 +11,6 @@ export function pushup(angles_dict, currentStage, currentRep) {
 
     if (leftElbowAngle < ANGLE_THRESHOLD_DOWN && rightElbowAngle < ANGLE_THRESHOLD_DOWN) {
         if (currentStage.current !== 'down') {
-            newStage = 'down'; 
             currentStage.current = 'down';
         }
     } 
