@@ -76,11 +76,11 @@ public class PoseFrameProcessorPlugin: FrameProcessorPlugin {
         let orientation = frame.orientation
 
         do {
-            let image = try MPImage(sampleBuffer: buffer)
+          let image = try MPImage(sampleBuffer: buffer)
             let timestampInMilliseconds = Int(frame.timestamp * 1000) // Convert to milliseconds
 
             // Detect poses in the current frame
-            try poseLandmarker.detectAsync(image: image, timestampInMilliseconds: timestampInMilliseconds)
+          try poseLandmarker.detectAsync(image: image, timestampInMilliseconds: timestampInMilliseconds)
 
             // Return the latest landmarks from the result processor
             return resultProcessor?.landmarks ?? []
