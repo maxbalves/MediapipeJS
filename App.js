@@ -4,7 +4,7 @@ import { Camera, useCameraDevice, useCameraPermission, useSkiaFrameProcessor, Vi
 import { Skia, PaintStyle, matchFont } from '@shopify/react-native-skia';
 import { computeAngles, computeLandmarks, drawSkeleton } from './PoseDetection';
 import { pushup } from './exercises';
-// import { runOnJS } from 'react-native-reanimated';
+import { useRunOnJS } from 'react-native-worklets-core';
 
 // TODO: Skia Draw the current Rep Number
 
@@ -36,10 +36,13 @@ export default function App() {
 	const [showReps, setReps] = useState(true);
 	const [repetitionCount, setRepetitions] = useState(0);
 
+	const updateReps = useRunOnJS((reps) => {
+		setRepetitions(reps);
+	}, []);
+
 	// Use useRef for rep count and stage to persist the values without triggering re-renders
 	const repCountRef = useRef(0);
 	const stageRef = useRef("up");
-	let repetitions = 0;
 
 	// Set color of joints and skeleton 
 	const paint = Skia.Paint();
@@ -73,25 +76,19 @@ export default function App() {
 		// stageRef, repCountRef = pushup(angles_dict, stageRef, repCountRef);
 		pushup(angles_dict, stageRef, repCountRef);
 		let rep = repCountRef.current;
-		repetitions = rep;
+		updateReps(rep);
 		let stage = stageRef.current;
 		console.log("CURRENT REP: " + rep);
 		console.log("STAGE: " + stage);
 
+		// if (showReps) {
+		// 	let str = String(rep);
+		// 	let text = "Rep Count: " + str + "";
+		// 	let paint = Skia.Paint();
+		// 	paint.setColor(Skia.Color('white'));
 
-    	// Draw skeleton
-    	if (showLandmarks) {
-        	drawSkeleton(frame, landmarks_dict);
-    	}
-
-		if (showReps) {
-			let str = String(rep);
-			let text = "Rep Count: " + str + "";
-			let paint = Skia.Paint();
-			paint.setColor(Skia.Color('white'));
-
-			frame.drawText(text, 100, 200, paint, font);
-		}
+		// 	frame.drawText(text, 100, 200, paint, font);
+		// }
 
 
 		// Draw circles (landmarks)
@@ -125,7 +122,7 @@ export default function App() {
 				frame.drawText(text, x, y, paint, font);
 			}
 		}
-	}, [showLandmarks, showAngles]); // Add showLandmarks and showAngles as dependencies
+	}, [showLandmarks, showAngles, repetitionCount]); // Add showLandmarks and showAngles as dependencies
 
 	return (
 		<View style={styles.container}>
@@ -138,9 +135,9 @@ export default function App() {
 				enableFpsGraph={true}
 				outputOrientation="preview"
 			/>
-			{/* <View style={styles.repCounterContainer}>
-				<Text style={styles.repCounterText}>Reps: {}</Text>
-			</View> */}
+			<View style={styles.repCounterContainer}>
+				<Text style={styles.repCounterText}>Reps: {repetitionCount}</Text>
+			</View>
 			<View style={styles.anglesButtonContainer}>
 				<Button
 					title={showAngles ? "Hide Angles" : "Show Angles"}
