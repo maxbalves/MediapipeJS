@@ -5,6 +5,7 @@ import { Skia, PaintStyle, matchFont } from '@shopify/react-native-skia';
 import { computeAngles, computeLandmarks, drawSkeleton } from './PoseDetection';
 import { pushup } from './exercises';
 import { useRunOnJS } from 'react-native-worklets-core';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 // TODO: Flip camera button, Stop session button, and change model button
 
@@ -157,8 +158,11 @@ export default function App() {
 				/>
 			</View>
 			<View style={styles.flipButtonContainer}>
-				<Button
-					title="Flip Camera"
+				{/* Flip Camera Button with Icon */}
+				<Icon
+					name="refresh" // You can use any icon here (e.g., "camera" for a camera icon)
+					size={30}
+					color="#fff"
 					onPress={flipCamera}
 				/>
 			</View>
@@ -195,6 +199,7 @@ const styles = StyleSheet.create({
 	},
 	flipButtonContainer: {
 		position: 'absolute',
-		bottom: 140, // Place it in between the landmarks and angles buttons
+		top: 100,
+		right: 20,
 	},
 });
