@@ -47,7 +47,7 @@ public class PoseFrameProcessorPlugin: FrameProcessorPlugin {
         super.init(proxy: proxy, options: options)
 
         // Initialize the pose landmarker in livestream mode
-        let modelPath = Bundle.main.path(forResource: "pose_landmarker_full", ofType: "task")
+        let modelPath = Bundle.main.path(forResource: "pose_landmarker_lite", ofType: "task")
         let options = PoseLandmarkerOptions()
         options.baseOptions.modelAssetPath = modelPath!
         options.runningMode = .liveStream

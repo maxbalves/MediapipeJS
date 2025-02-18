@@ -6,7 +6,7 @@ import { computeAngles, computeLandmarks, drawSkeleton } from './PoseDetection';
 import { pushup } from './exercises';
 import { useRunOnJS } from 'react-native-worklets-core';
 
-// TODO: Skia Draw the current Rep Number
+// TODO: Flip camera button, Stop session button, and change model button
 
 // Initialize Frame Processor Plugin
 const plugin = VisionCameraProxy.initFrameProcessorPlugin('poseFrameProcessor', {});
@@ -27,7 +27,8 @@ export function poseFrameProcessor(frame) {
 }
 
 export default function App() {
-	const device = useCameraDevice('front');
+	const [cameraDevice, setCameraDevice] = useState('front');
+	const device = useCameraDevice(cameraDevice);
 	const { hasPermission } = useCameraPermission();
 
 	// State to control landmark and angle visibility
@@ -125,6 +126,10 @@ export default function App() {
 		}
 	}, [showLandmarks, showAngles]); // Add showLandmarks and showAngles as dependencies
 
+	const flipCamera = () => {
+		setCameraDevice((prevDevice) => (prevDevice === 'front' ? 'back' : 'front'));
+	};
+
 	return (
 		<View style={styles.container}>
 			<Camera
@@ -149,6 +154,12 @@ export default function App() {
 				<Button
 					title={showLandmarks ? "Hide Landmarks" : "Show Landmarks"}
 					onPress={() => setShowLandmarks(!showLandmarks)}
+				/>
+			</View>
+			<View style={styles.flipButtonContainer}>
+				<Button
+					title="Flip Camera"
+					onPress={flipCamera}
 				/>
 			</View>
 		</View>
@@ -181,5 +192,9 @@ const styles = StyleSheet.create({
 	landmarksButtonContainer: {
 		position: 'absolute',
 		bottom: 20, // Lower bottom value to place below the angles button
+	},
+	flipButtonContainer: {
+		position: 'absolute',
+		bottom: 140, // Place it in between the landmarks and angles buttons
 	},
 });
