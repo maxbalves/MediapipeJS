@@ -36,13 +36,14 @@ export default function App() {
 	const [showReps, setReps] = useState(true);
 	const [repetitionCount, setRepetitions] = useState(0);
 
-	const updateReps = useRunOnJS((reps) => {
-		setRepetitions(reps);
-	}, []);
-
 	// Use useRef for rep count and stage to persist the values without triggering re-renders
 	const repCountRef = useRef(0);
 	const stageRef = useRef("up");
+
+	const updateReps = useRunOnJS((reps) => {
+		repCountRef.current = reps;
+		setRepetitions(reps);
+	}, []);
 
 	// Set color of joints and skeleton 
 	const paint = Skia.Paint();
@@ -122,7 +123,7 @@ export default function App() {
 				frame.drawText(text, x, y, paint, font);
 			}
 		}
-	}, [showLandmarks, showAngles, repetitionCount]); // Add showLandmarks and showAngles as dependencies
+	}, [showLandmarks, showAngles]); // Add showLandmarks and showAngles as dependencies
 
 	return (
 		<View style={styles.container}>
