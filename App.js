@@ -122,7 +122,10 @@ export default function App() {
 				let paint = Skia.Paint();
 				paint.setColor(Skia.Color('white'));
 
+				frame.save();
+				frame.rotate(270, x, y);
 				frame.drawText(text, x, y, paint, font);
+				frame.restore();
 			}
 		}
 	}, [showLandmarks, showAngles]); // Add showLandmarks and showAngles as dependencies
@@ -140,7 +143,7 @@ export default function App() {
 				frameProcessor={frameProcessor}
 				pixelFormat='rgb'
 				enableFpsGraph={true}
-				outputOrientation="preview"
+				outputOrientation="device"
 			/>
 			<View style={styles.repCounterContainer}>
 				<Text style={styles.repCounterText}>Reps: {repetitionCount}</Text>
